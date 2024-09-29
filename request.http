@@ -1,0 +1,9 @@
+POST http://localhost:3000/api/url
+Content-Type: application/json
+
+{
+  "longUrl": "https://medium.com/@harutyunyanmarieta/anime-pdf-generator-step-by-step-part-1-6ab1a2b1ce3b"
+}
+
+###
+GET http://localhost:3000/shorturl/23tyfr
