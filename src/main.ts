@@ -1,7 +1,6 @@
 import { ApiServer } from "./presentation/ApiServer";
 import { GetRedirectUrlUseCase } from "./application/usecases/GetRedirectUrlUseCase";
 import { ShortenLongUrlUseCase } from "./application/usecases/ShortenLongUrlUseCase";
-import { InMemoryUrlRepository } from "./infrastructure/InMemoryUrlRepository";
 import { RedirectUrlController } from "./presentation/controllers/RedirectUrlController";
 import { ShortenLongUrlController } from "./presentation/controllers/ShortenLongUrlController";
 import { PrismaClient } from "@prisma/client";
