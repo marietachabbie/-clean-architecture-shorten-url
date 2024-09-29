@@ -10,18 +10,18 @@ class ShortUrl {
 }
 
 export class GetRedirectUrlUseCase
-implements IUseCase<IShortUrlDto, IShortenedUrlResult> {
+implements IUseCase<IShortUrlDto, Promise<IShortenedUrlResult>> {
 
   public constructor (
     private readonly _repo: ILongUrlRepository,
   ) {}
 
-  public execute (input: IShortUrlDto): IShortenedUrlResult {
+  public async execute (input: IShortUrlDto): Promise<IShortenedUrlResult> {
     const shortUrl = new ShortUrl(input.content);
-    const result = this._repo.find(shortUrl);
+    const result = await this._repo.find(shortUrl);
 
     if (!result) {
-      throw new Error(`Failed to find redirect URL by the short URL: ${shortUrl.content}`);
+      throw new Error(`No URL found by privided short URL: ${shortUrl.content}`);
     }
 
     return {
