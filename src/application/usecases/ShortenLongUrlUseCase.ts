@@ -9,6 +9,15 @@ class ShortUrl {
   ) {}
 }
 
+export const generateShortUrl = (): string => {
+  const shortened = (Math.random() + 1).toString(36).slice(2, 8);
+  if (shortened.length !== 6) {
+    throw new Error("Failed to generate a 6-character string");
+  }
+
+  return shortened;
+};
+
 export class ShortenLongUrlUseCase
 implements IUseCase<ILongUrlDto, Promise<IShortenedUrlResult>> {
 
@@ -17,10 +26,7 @@ implements IUseCase<ILongUrlDto, Promise<IShortenedUrlResult>> {
   ) {}
 
   public async execute (url: ILongUrlDto): Promise<IShortenedUrlResult> {
-    const shortened = (Math.random() + 1).toString(36).slice(2, 8);
-    if (shortened.length !== 6) {
-      throw new Error("Failed to generate 6 length string");
-    }
+    const shortened = generateShortUrl();
 
     const result: IShortenedUrlResult = {
       shortUrl: shortened,
@@ -35,7 +41,11 @@ implements IUseCase<ILongUrlDto, Promise<IShortenedUrlResult>> {
       throw new Error("Repeating key for short URL");
     }
 
-    await this._repo.save(result);
+    const saved = await this._repo.save(result);
+    if (!saved) {
+      throw new Error("Failed to store shortened URL");
+    }
+
     return { longUrl: url.content, shortUrl: shortened };
   }
 }
